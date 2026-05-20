@@ -1,0 +1,118 @@
+@charset "utf-8";
+/* CSS Document */
+
+body{
+background-color:#053165;
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+text-decoration:none;
+}
+.body-text{
+color:#053165;
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+text-decoration:none;
+}
+.site-name{
+font-family:Georgia, "Times New Roman", Times, serif;
+font-weight:bold;
+font-size:30px;
+color:#bdbcbd;
+text-decoration:none;
+}
+.top-text{
+font-family:Courier New, Courier, monospace;
+font-size:12px;
+font-weight:bold;
+color:#bdbcbd;
+text-decoration:none;
+}
+.top-nav-text{
+font-family:Arial, Helvetica, sans-serif;
+font-size:9px;
+font-weight:bold;
+color:#FFFFFF;
+text-decoration:none;
+}
+.header{
+background-image:url(../images/header.gif);
+widows:992px;
+height:316px;
+background-repeat:no-repeat;
+}
+.body-tp{
+background-image:url(../images/body-bg-top.jpg);
+width:992px;
+height:22px;
+background-repeat:no-repeat;
+background-position:bottom;
+}
+.body-bg{
+background-image:url(../images/body-bg1.jpg);
+widows:992px;
+height:5px;
+background-position:top;
+background-repeat:repeat-y;
+}
+.nav-text{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11px;
+font-weight:bold;
+color:#0f3e75;
+text-decoration:none;
+}
+.middle-cat{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11px;
+color:#07274d;
+font-weight:bold;
+}
+.dottedt-line{
+color:#07274d;
+font-size:11px;
+}
+.lower-box-top{
+background-image:url(../images/lower-box-top.jpg);
+width:686px;
+height:8px;
+background-position:bottom;
+background-repeat:no-repeat;
+}
+.lower-box-bottom{
+background-image:url(../images/lower-box-bottom.jpg);
+width:686px;
+height:8px;
+background-repeat:no-repeat;
+}
+.lower-box-bg{
+background-image:url(../images/lower-box-bg.jpg);
+width:686px;
+height:114px;
+background-repeat:no-repeat;
+}
+.lower-box-text{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11px;
+color:#0b3a72;
+font-weight:bold;
+text-decoration:none;
+}
+.lower-box-head{
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+color:#416690;
+font-weight:bold;
+text-decoration:none;
+}
+.top-nav-text{
+color:#4d7096;
+font-size:16px;
+font-weight:bold;
+font-family:Courier New, Courier, monospace;
+}
+.footer{
+font-family:Arial, Helvetica, sans-serif;
+font-size:11px;
+color:#CCCCCC;
+font-weight:bold;
+}
