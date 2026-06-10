@@ -18,9 +18,9 @@ jobs:
 
       # Step 2: Setup Fortify CLI (fcli) development release
       - name: Setup Fortify fcli
-        uses: fortify/github-action/setup@v2
+        uses: fortify/github-action/setup@v3
         with:
-          release: dev_feat.v3.x.create-pr-fcli-action  # Replace <name> with the specific dev release name you want to test
+          fcli: dev_feat.v3.x.create-pr-fcli-action
 
       # Step 3: Run fcli action run ci
       - name: Run Fortify CI Action
