@@ -32,7 +32,7 @@ jobs:
           SC_SAST_TOKEN: ${{ secrets.SC_SAST_TOKEN }}
           SSC_APPVERSION: ${{ vars.SSC_APPVERSION }}
           AVIATOR_URL: ${{ vars.AVIATOR_URL }}
-          AVIATOR_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
+          AVIATOR_TOKEN: string:${{ secrets.AVIATOR_TOKEN }}
           AVIATOR_APP: ${{ vars.AVIATOR_APP }}
           DO_CREATE_PR: ${{ vars.DO_CREATE_PR }}
           DO_PR_COMMENT: ${{ vars.DO_PR_COMMENT }}
