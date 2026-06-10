@@ -10,7 +10,10 @@ on:
 jobs:
   fortify-scan:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write      # ← Required for push access
+      pull-requests: write # ← Required if creating PRs
+      
     steps:
       # Step 1: Checkout repository code
       - name: Checkout code
