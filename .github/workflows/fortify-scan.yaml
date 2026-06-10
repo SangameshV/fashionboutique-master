@@ -1,0 +1,45 @@
+name: Fortify Scan Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  fortify-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Checkout repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Fortify CLI (fcli) development release
+      - name: Setup Fortify fcli
+        uses: fortify/github-action/setup@v2
+        with:
+          release: dev_<name>  # Replace <name> with the specific dev release name you want to test
+
+      # Step 3: Run fcli action run ci
+      - name: Run Fortify CI Action
+        env:
+          FOD_URL: ${{ vars.FOD_URL }}
+          SSC_URL: ${{ vars.SSC_URL }}
+          FOD_CLIENT_ID: ${{ secrets.FOD_CLIENT_ID }}
+          FOD_CLIENT_SECRET: ${{ secrets.FOD_CLIENT_SECRET }}
+          SSC_API_TOKEN: ${{ secrets.SSC_API_TOKEN }}
+          # Additional options - uncomment as needed:
+          # FOD_REMEDIATION_PRUNE_THRESHOLD: "50"  # Enable remediation PRs
+          # FOD_REMEDIATION_PR: "true"             # Create PRs for remediation
+        run: |
+          fcli action run ci \
+            --backend fod \
+            --fod-url="${FOD_URL}" \
+            --fod-client-id="${FOD_CLIENT_ID}" \
+            --fod-client-secret="${FOD_CLIENT_SECRET}"
+            # If using SSC instead, uncomment and modify:
+            # --backend ssc \
+            # --ssc-url="${SSC_URL}" \
+            # --ssc-api-token="${SSC_API_TOKEN}"
