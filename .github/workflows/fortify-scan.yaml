@@ -27,7 +27,8 @@ jobs:
         env:
           SSC_TOKEN: ${{ secrets.SSC_TOKEN }}
           SC_SAST_TOKEN: ${{ secrets.SC_SAST_TOKEN }}
-          AVIATOR_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
+          AVIATOR_USER_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
+          AVIATOR_TOKEN: env:AVIATOR_USER_TOKEN
           SSC_URL: ${{ vars.SSC_URL }}
           AVIATOR_URL: ${{ vars.AVIATOR_URL }}
           AVIATOR_APP: ${{ vars.AVIATOR_APP }}
