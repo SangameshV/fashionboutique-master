@@ -20,7 +20,7 @@ jobs:
       - name: Setup Fortify fcli
         uses: fortify/github-action/setup@v2
         with:
-          release: dev_<name>  # Replace <name> with the specific dev release name you want to test
+          release: dev_feat.v3.x.create-pr-fcli-action  # Replace <name> with the specific dev release name you want to test
 
       # Step 3: Run fcli action run ci
       - name: Run Fortify CI Action
@@ -35,11 +35,11 @@ jobs:
           # FOD_REMEDIATION_PR: "true"             # Create PRs for remediation
         run: |
           fcli action run ci \
-            --backend fod \
-            --fod-url="${FOD_URL}" \
-            --fod-client-id="${FOD_CLIENT_ID}" \
-            --fod-client-secret="${FOD_CLIENT_SECRET}"
+            # --backend fod \
+            # --fod-url="${FOD_URL}" \
+            # --fod-client-id="${FOD_CLIENT_ID}" \
+            # --fod-client-secret="${FOD_CLIENT_SECRET}"
             # If using SSC instead, uncomment and modify:
-            # --backend ssc \
-            # --ssc-url="${SSC_URL}" \
-            # --ssc-api-token="${SSC_API_TOKEN}"
+            --backend ssc \
+            --ssc-url="${SSC_URL}" \
+            --ssc-token="${SSC_TOKEN}"
