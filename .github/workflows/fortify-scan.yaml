@@ -32,10 +32,16 @@ jobs:
           SC_SAST_TOKEN: ${{ secrets.SC_SAST_TOKEN }}
           SSC_APPVERSION: ${{ vars.SSC_APPVERSION }}
           AVIATOR_URL: ${{ vars.AVIATOR_URL }}
-          AVIATOR_TOKEN: string:${{ secrets.AVIATOR_TOKEN }}
+          AVIATOR_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
           AVIATOR_APP: ${{ vars.AVIATOR_APP }}
           DO_CREATE_PR: ${{ vars.DO_CREATE_PR }}
           DO_PR_COMMENT: ${{ vars.DO_PR_COMMENT }}
           DO_APPLY_REMEDIATIONS: ${{ vars.DO_APPLY_REMEDIATIONS }}
         run: |
-          fcli action run ci
+          fcli action run ci --debug --log-file=${GITHUB_WORKSPACE}/fcli.log
+      - name: Upload Debug Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcli-log-file
+          path: ${GITHUB_WORKSPACE}/fcli.log
+        
