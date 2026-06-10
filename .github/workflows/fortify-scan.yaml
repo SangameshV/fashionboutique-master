@@ -30,6 +30,7 @@ jobs:
           SSC_URL: ${{ vars.SSC_URL }}
           SSC_TOKEN: ${{ secrets.SSC_TOKEN }}
           SC_SAST_TOKEN: ${{ secrets.SC_SAST_TOKEN }}
+          TOKEN: ${{ secrets.MY_CUSTOM_GITHUB_TOKEN }}
           SSC_APPVERSION: ${{ vars.SSC_APPVERSION }}
           AVIATOR_URL: ${{ vars.AVIATOR_URL }}
           AVIATOR_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
