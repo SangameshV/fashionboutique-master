@@ -20,19 +20,20 @@ jobs:
       - name: Setup Fortify fcli
         uses: fortify/github-action/setup@v3
         with:
-          fcli: dev_feat.v3.x.create-pr-fcli-action
+          fcli: bootstrapped
+        env:
+          FCLI_BOOTSTRAP_VERSION: dev_feat.v3.x.create-pr-fcli-action
 
       # Step 3: Run fcli action run ci
       - name: Run Fortify CI Action
         env:
+          SSC_URL: ${{ vars.SSC_URL }}
           SSC_TOKEN: ${{ secrets.SSC_TOKEN }}
           SC_SAST_TOKEN: ${{ secrets.SC_SAST_TOKEN }}
-          AVIATOR_USER_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
-          AVIATOR_TOKEN: env:AVIATOR_USER_TOKEN
-          SSC_URL: ${{ vars.SSC_URL }}
-          AVIATOR_URL: ${{ vars.AVIATOR_URL }}
-          AVIATOR_APP: ${{ vars.AVIATOR_APP }}
           SSC_APPVERSION: ${{ vars.SSC_APPVERSION }}
+          AVIATOR_URL: ${{ vars.AVIATOR_URL }}
+          AVIATOR_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
+          AVIATOR_APP: ${{ vars.AVIATOR_APP }}
           DO_CREATE_PR: ${{ vars.DO_CREATE_PR }}
           DO_PR_COMMENT: ${{ vars.DO_PR_COMMENT }}
           DO_APPLY_REMEDIATIONS: ${{ vars.DO_APPLY_REMEDIATIONS }}
