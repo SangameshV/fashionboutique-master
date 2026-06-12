@@ -44,9 +44,38 @@ jobs:
           SC_CLIENT_VERSION: ${{ vars.SC_CLIENT_VERSION}}
         run: |
           fcli action run ci --debug --log-file=${GITHUB_WORKSPACE}/fcli.log
+
+      # Step 4: Verify Git Status
+      - name: Verify Git Status
+        run: |
+          echo "=== Current Branch ==="
+          git branch -v
+          echo ""
+          echo "=== Git Status ==="
+          git status
+          echo ""
+          echo "=== Staged Changes ==="
+          git diff --cached --name-status || echo "No staged changes"
+          echo ""
+          echo "=== Unstaged Changes ==="
+          git diff --name-status || echo "No unstaged changes"
+          echo ""
+          echo "=== Commit Status ==="
+          git log -1 --oneline
+          echo ""
+          echo "=== Remote Status ==="
+          git fetch origin > /dev/null 2>&1
+          git log --oneline -n 5 origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null || echo "Remote branch not found or no commits"
+          echo ""
+          echo "=== Check for unpushed commits ==="
+          UNPUSHED=$(git rev-list origin/$(git rev-parse --abbrev-ref HEAD)..HEAD 2>/dev/null | wc -l)
+          echo "Unpushed commits: $UNPUSHED"
+
+      # Step 5: Upload Debug Artifacts (always runs, even if earlier steps fail)
       - name: Upload Debug Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fcli-log-file
-          path: ${GITHUB_WORKSPACE}/fcli.log
+          path: ${{ github.workspace }}/fcli.log
         
