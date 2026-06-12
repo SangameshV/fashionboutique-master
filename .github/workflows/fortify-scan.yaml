@@ -18,8 +18,17 @@ jobs:
       # Step 1: Checkout repository code
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # Step 2: Setup Fortify CLI (fcli) development release
+      
+      # Step 2: NEW - Configure Git with GitHub Token
+      - name: Configure Git with GitHub Token
+        run: |
+          git config --global user.name "Fortify Bot"
+          git config --global user.email "fortify@fortify.com"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_CUSTOM_GITHUB_TOKEN }}
+     
+      # Step 3: Setup Fortify CLI (fcli) development release
       - name: Setup Fortify fcli
         uses: fortify/github-action/setup@v3
         with:
@@ -27,7 +36,7 @@ jobs:
         env:
           FCLI_BOOTSTRAP_VERSION: dev_feat.v3.x.create-pr-fcli-action
 
-      # Step 3: Run fcli action run ci
+      # Step 4: Run fcli action run ci
       - name: Run Fortify CI Action
         env:
           SSC_URL: ${{ vars.SSC_URL }}
@@ -46,7 +55,7 @@ jobs:
         run: |
           fcli action run ci --debug --log-file=${GITHUB_WORKSPACE}/fcli.log
 
-      # Step 4: Verify Git Status
+      # Step 5: Verify Git Status
       - name: Verify Git Status
         if: always()
         run: |
@@ -73,7 +82,7 @@ jobs:
           UNPUSHED=$(git rev-list origin/$(git rev-parse --abbrev-ref HEAD)..HEAD 2>/dev/null | wc -l)
           echo "Unpushed commits: $UNPUSHED"
 
-      # Step 5: Upload Debug Artifacts (always runs, even if earlier steps fail)
+      # Step 6: Upload Debug Artifacts (always runs, even if earlier steps fail)
       - name: Upload Debug Artifacts
         if: always()
         uses: actions/upload-artifact@v4
