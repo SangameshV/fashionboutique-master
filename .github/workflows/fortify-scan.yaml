@@ -10,25 +10,19 @@ on:
 jobs:
   fortify-scan:
     runs-on: ubuntu-latest
+
     permissions:
-      contents: write      # ← Required for push access
-      pull-requests: write # ← Required if creating PRs
-      
+      contents: write
+      pull-requests: write
+
     steps:
-      # Step 1: Checkout repository code
+      # ✅ Step 1: Checkout (FULL history needed for push)
       - name: Checkout code
         uses: actions/checkout@v4
-      
-      # Step 2: NEW - Configure Git with GitHub Token
-      - name: Configure Git with GitHub Token
-        run: |
-          git config --global user.name "Fortify Bot"
-          git config --global user.email "fortify@fortify.com"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
-        env:
-          GITHUB_TOKEN: ${{ secrets.MY_CUSTOM_GITHUB_TOKEN }}
-     
-      # Step 3: Setup Fortify CLI (fcli) development release
+        with:
+          fetch-depth: 0
+
+      # ✅ Step 2: Setup fcli
       - name: Setup Fortify fcli
         uses: fortify/github-action/setup@v3
         with:
@@ -36,13 +30,13 @@ jobs:
         env:
           FCLI_BOOTSTRAP_VERSION: dev_feat.v3.x.create-pr-fcli-action
 
-      # Step 4: Run fcli action run ci
+      # ✅ Step 3: Run fcli
       - name: Run Fortify CI Action
         env:
           SSC_URL: ${{ vars.SSC_URL }}
           SSC_TOKEN: ${{ secrets.SSC_TOKEN }}
           SC_SAST_TOKEN: ${{ secrets.SC_SAST_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.MY_CUSTOM_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # ✅ USE DEFAULT TOKEN
           SSC_APPVERSION: ${{ vars.SSC_APPVERSION }}
           AVIATOR_URL: ${{ vars.AVIATOR_URL }}
           AVIATOR_TOKEN: ${{ secrets.AVIATOR_TOKEN }}
@@ -50,57 +44,41 @@ jobs:
           DO_CREATE_PR: ${{ vars.DO_CREATE_PR }}
           DO_PR_COMMENT: ${{ vars.DO_PR_COMMENT }}
           DO_APPLY_REMEDIATIONS: ${{ vars.DO_APPLY_REMEDIATIONS }}
-          SC_CLIENT_VERSION: ${{ vars.SC_CLIENT_VERSION}}
           BASE_BRANCH: "main"
         run: |
           fcli action run ci --debug --log-file=${GITHUB_WORKSPACE}/fcli.log
 
-      # Step 5: Verify Git Status
+      # ✅ Step 4: Debug Git State (critical)
       - name: Verify Git Status
         if: always()
         run: |
           echo "=== Current Branch ==="
-          git branch -v
+          git branch -a
+
           echo ""
-          echo "=== Git Status ==="
-          git status
+          echo "=== Remote ==="
+          git remote -v
+
           echo ""
-          echo "=== Staged Changes ==="
-          git diff --cached --name-status || echo "No staged changes"
-          echo ""
-          echo "=== Unstaged Changes ==="
-          git diff --name-status || echo "No unstaged changes"
-          echo ""
-          echo "=== Commit Status ==="
+          echo "=== HEAD ==="
           git log -1 --oneline
-          echo ""
-          
-          echo ""
-          echo "=== Files Changed in Latest Commit ==="
-          COMMIT=$(git rev-parse HEAD)
-          echo "Commit: $COMMIT"
-          
-          echo ""
-          echo "Files:"
-          git show --name-status --pretty="" $COMMIT
-          
-          echo ""
-          echo "Total files:"
-          git show --name-only --pretty="" $COMMIT | wc -l
 
-          echo "=== Remote Status ==="
-          git fetch origin > /dev/null 2>&1
-          git log --oneline -n 5 origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null || echo "Remote branch not found or no commits"
           echo ""
-          echo "=== Check for unpushed commits ==="
-          UNPUSHED=$(git rev-list origin/$(git rev-parse --abbrev-ref HEAD)..HEAD 2>/dev/null | wc -l)
-          echo "Unpushed commits: $UNPUSHED"
+          echo "=== Files in Commit ==="
+          git show --name-status --pretty="" HEAD || echo "No commit"
 
-      # Step 6: Upload Debug Artifacts (always runs, even if earlier steps fail)
-      - name: Upload Debug Artifacts
+          echo ""
+          echo "=== Remote Heads ==="
+          git ls-remote --heads origin || echo "Cannot read remote"
+
+          echo ""
+          echo "=== Unpushed commits ==="
+          git rev-list origin/$(git rev-parse --abbrev-ref HEAD)..HEAD 2>/dev/null || echo "No upstream"
+
+      # ✅ Step 5: Upload logs
+      - name: Upload Debug Logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: fcli-log-file
+          name: fcli-debug
           path: ${{ github.workspace }}/fcli.log
-        
