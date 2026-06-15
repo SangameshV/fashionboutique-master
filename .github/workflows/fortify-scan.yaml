@@ -74,6 +74,20 @@ jobs:
           echo "=== Commit Status ==="
           git log -1 --oneline
           echo ""
+          
+          echo ""
+          echo "=== Files Changed in Latest Commit ==="
+          COMMIT=$(git rev-parse HEAD)
+          echo "Commit: $COMMIT"
+          
+          echo ""
+          echo "Files:"
+          git show --name-status --pretty="" $COMMIT
+          
+          echo ""
+          echo "Total files:"
+          git show --name-only --pretty="" $COMMIT | wc -l
+
           echo "=== Remote Status ==="
           git fetch origin > /dev/null 2>&1
           git log --oneline -n 5 origin/$(git rev-parse --abbrev-ref HEAD) 2>/dev/null || echo "Remote branch not found or no commits"
