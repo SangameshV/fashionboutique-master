@@ -22,6 +22,12 @@ jobs:
         with:
           fetch-depth: 0
 
+    # Configure git user (REQUIRED for commits)
+      - name: Configure Git User
+        run: |
+          git config --global user.name "fcli-aviator[bot]"
+          git config --global user.email "fcli-aviator@opentext.com"
+          
       # ✅ Step 2: Setup fcli
       - name: Setup Fortify fcli
         uses: fortify/github-action/setup@v3
