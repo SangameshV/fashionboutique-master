@@ -8,6 +8,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import = "java.io.*, javax.servlet.*, javax.servlet.http.*, javax.naming.*, javax.sql.*, java.sql.*"%>
 <sql:setDataSource var="Ds" dataSource="Account"/>
 <htm:html>
@@ -295,7 +296,7 @@
 					<tr><th>Image</th><th>Name</th><th>Price</th><th></th><th>Action</th></tr>
 					
                  <tr>
-                                  <td><img src="${param.path}" alt="1" width="400" height="450" border="" /></td>
+                                  <td><img src="${fn:escapeXml(param.path)}" alt="1" width="400" height="450" border="" /></td>
                                   <td></td>
                                   <td><c:out value="${param.name}"/></td>
                                   <td></td>

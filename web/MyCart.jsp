@@ -8,6 +8,7 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page import = "java.io.*, javax.servlet.*, javax.servlet.http.*, javax.naming.*,formBeans.*, javax.sql.*, java.sql.*"%>
 <script src="/js-global/FancyZoom.js" type="text/javascript"></script>
 <script src="/js-global/FancyZoomHTML.js" type="text/javascript"></script>
@@ -297,7 +298,7 @@
 
                  <tr>
          <%
-         double tp=0;
+         PreparedStatement stmt=null;
          Connection con=null;
          Statement stmt=null;
          ResultSet rs;
@@ -305,10 +306,11 @@
         try{ InitialContext in=new InitialContext();
          DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
          con=ds.getConnection();
-         stmt=con.createStatement();
          LoginFromBean f=(LoginFromBean)session.getAttribute("user");
-         String query="Select * From catalogue where user=\'"+f.getuName()+"\'";
-          rs=stmt.executeQuery(query);
+         String query="Select * From catalogue where user=?";
+         stmt=con.prepareStatement(query);
+         stmt.setString(1, f.getuName());
+         rs=stmt.executeQuery();
           
           name=f.getuName();
           double t=0;
@@ -339,7 +341,8 @@
         <td></td>
         <td>Total Price</td>
         <td><% out.println(tp);%></td>
-        <td><a href="checkOut.jsp?name=<%=name%>&price=<%=tp%>"> Check Out</a></td>
+        <c:set var="safeName" value="${fn:escapeXml(name)}"/>
+        <td><a href="checkOut.jsp?name=${safeName}&amp;price=<%=tp%>"> Check Out</a></td>
                 <p>${page.name}</p>    </table>
                               </td>
                   </tr>

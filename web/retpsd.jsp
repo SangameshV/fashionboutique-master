@@ -154,9 +154,10 @@
                   </tr>
                 </table></td>
                 <td width="671" valign="top" bgcolor="#FBFBFB"><table width="671" border="0" cellspacing="0" cellpadding="0">
-                    <c:set var="query" value="Select Password From login where Name=\'${param.name}\' and Email=\'${param.email}\'"/>
                     <sql:query var="rs" dataSource="${Ds}">
-                        ${query}
+                        Select Password From login where Name=? and Email=?
+                        <sql:param value="${param.name}"/>
+                        <sql:param value="${param.email}"/>
                     </sql:query>
                     <c:forEach items="${rs.rows}" var="row">
                                              <c:set var="p" value="${row.Password}"/>

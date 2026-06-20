@@ -46,7 +46,7 @@ HttpSession hs=request.getSession();
         ProfileForm f=(ProfileForm)form;
         
         DataBaseManager db=new DataBaseManager();
-        if(db.ChkValid("Select * form login where userName=\'"+log.getuName()+"\'"))
+        if(db.ChkValid("login", log.getuName()))
         {
           try{rs=  db.ReadData(query);
           rs.next();

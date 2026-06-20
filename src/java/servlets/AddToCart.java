@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -42,16 +43,21 @@ public class AddToCart extends HttpServlet {
             HttpSession hs=request.getSession();
             LoginFromBean log=(LoginFromBean)hs.getAttribute("user");
             
+
             Connection con=null;
-            Statement stmt=null;
-            
-            query="insert into catalogue values(\'"+request.getParameter("id")+"\',"+0+",\'"+request.getParameter("price")+"\',"+0+",\'"+log.getuName()+"\')";
-            
+            PreparedStatement stmt=null;
+
             InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+            DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
+            con=ds.getConnection();
+            stmt=con.prepareStatement("insert into catalogue values(?, ?, ?, ?, ?)");
+            stmt.setString(1, request.getParameter("id"));
+            stmt.setInt(2, 0);
+            stmt.setString(3, request.getParameter("price"));
+            stmt.setInt(4, 0);
+            stmt.setString(5, log.getuName());
+            stmt.executeUpdate();
+            response.sendRedirect("MyCart.jsp");
          response.sendRedirect("MyCart.jsp");
         } 
         catch(Exception e)

@@ -308,8 +308,10 @@
         
          
                  
-        <td><% out.println(rs.getString("id")); %></td>
-                 <td><% out.println(rs.getString("user")); %></td>
+        <td><% out.println(rs.getString("id") == null ? "" : rs.getString("id").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+                 <td><% out.println(rs.getString("user") == null ? "" : rs.getString("user").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+
+                 <td><% out.println(rs.getString("price") == null ? "" : rs.getString("price").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
 
                  <td><% out.println(rs.getString("price")); %></td>
 
@@ -318,7 +320,7 @@
                                 </tr>
              
              <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ java.util.logging.Logger.getLogger("Cart").log(java.util.logging.Level.SEVERE, "Error loading cart data", e); out.print("An error occurred while loading the cart. Please try again later."); }
         %>
                     </table>
                               </td>
