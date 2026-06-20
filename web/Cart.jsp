@@ -308,17 +308,17 @@
         
          
                  
-        <td><% out.println(rs.getString("id")); %></td>
-                 <td><% out.println(rs.getString("user")); %></td>
+        <td><c:out value="<%= rs.getString("id") %>" escapeXml="true"/></td>
+                 <td><c:out value="<%= rs.getString("user") %>" escapeXml="true"/></td>
 
-                 <td><% out.println(rs.getString("price")); %></td>
+                 <td><c:out value="<%= rs.getString("price") %>" escapeXml="true"/></td>
 
 
 
                                 </tr>
              
              <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ application.log("Error in Cart.jsp", e); out.print("An error occurred while processing your request. Please try again later."); }
         %>
                     </table>
                               </td>

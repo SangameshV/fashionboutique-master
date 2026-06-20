@@ -299,16 +299,16 @@
          <%
          double tp=0;
          Connection con=null;
-         Statement stmt=null;
+         PreparedStatement stmt=null;
          ResultSet rs;
          String name=null;
         try{ InitialContext in=new InitialContext();
          DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
          con=ds.getConnection();
-         stmt=con.createStatement();
+         stmt=con.prepareStatement("Select * From catalogue where user=?");
          LoginFromBean f=(LoginFromBean)session.getAttribute("user");
-         String query="Select * From catalogue where user=\'"+f.getuName()+"\'";
-          rs=stmt.executeQuery(query);
+         stmt.setString(1, f.getuName());
+         rs=stmt.executeQuery();
           
           name=f.getuName();
           double t=0;
@@ -327,7 +327,8 @@
                  <td><% out.println(t); %></td>
                               
                 
-    <td width="81"><a href="DeleteCartEntry?id=<%=i %>" >Delete</a></td>
+
+    <td width="81"><a href="DeleteCartEntry?id=<%=java.net.URLEncoder.encode(i, "UTF-8") %>" >Delete</a></td>
                 
 
 
@@ -339,7 +340,7 @@
         <td></td>
         <td>Total Price</td>
         <td><% out.println(tp);%></td>
-        <td><a href="checkOut.jsp?name=<%=name%>&price=<%=tp%>"> Check Out</a></td>
+        <td><a href="checkOut.jsp?name=<%=java.net.URLEncoder.encode(name != null ? name : "", "UTF-8")%>&price=<%=tp%>"> Check Out</a></td>
                 <p>${page.name}</p>    </table>
                               </td>
                   </tr>

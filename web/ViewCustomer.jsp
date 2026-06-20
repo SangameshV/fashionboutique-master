@@ -313,15 +313,15 @@
                             
                             
                             
-                            <td><% out.println(id); %></td>
-                   <td><% out.println(rs.getString("userName")); %></td>
-  <td><% out.println(rs.getString("Phone")); %></td>
-                   <td><% out.println(rs.getString("Email")); %></td>
-  <td ><a href="DeleteCustomer?id='<%=id %>'" >Delete</a></td>
+                            <td><% out.println(id == null ? "" : id.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+                   <td><% String uName=rs.getString("userName"); out.println(uName == null ? "" : uName.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+  <td><% String phone=rs.getString("Phone"); out.println(phone == null ? "" : phone.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+                   <td><% String email=rs.getString("Email"); out.println(email == null ? "" : email.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+  <td><a href="DeleteCustomer?id='<%= java.net.URLEncoder.encode(id == null ? "" : id, "UTF-8") %>'">Delete</a></td>
                                   </tr>
                           
                           <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ java.util.logging.Logger.getLogger("ViewCustomer").log(java.util.logging.Level.SEVERE, "Error retrieving customers", e); out.print("An error occurred while retrieving customer data. Please contact the administrator."); }
         %>
                           </table>                              </td>
                     </tr>

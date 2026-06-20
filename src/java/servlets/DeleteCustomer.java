@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -31,19 +32,18 @@ public class DeleteCustomer extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String query=null;
+
+        String query = "DELETE FROM `login` WHERE `userName`=?";
+        Connection con = null;
+        PreparedStatement stmt = null;
         try {
-
-
-            query="DELETE FROM `login` WHERE `userName`=\'"+request.getParameter("id")+"\'";
-            Connection con=null;
-            Statement stmt=null;
-            InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+            InitialContext in = new InitialContext();
+            DataSource ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, request.getParameter("id"));
+            stmt.executeUpdate();
+            response.sendRedirect("ViewCustomer.jsp");
          response.sendRedirect("ViewCustomer.jsp");
         }
         catch(Exception e){

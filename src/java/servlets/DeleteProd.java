@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -15,6 +16,7 @@ import javax.sql.*;
 import java.sql.*;
 import javax.naming.*;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -31,20 +33,18 @@ public class DeleteProd extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String query=null;
+
+        String query = "DELETE FROM `product` WHERE `id` = ?";
+        Connection con = null;
+        PreparedStatement stmt = null;
         try {
-           
-           
-            query="DELETE FROM `product` WHERE `id`=\'"+request.getParameter("id")+"\'";
-            Connection con=null;
-            Statement stmt=null;
-            InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+            InitialContext in = new InitialContext();
+            DataSource ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            stmt = con.prepareStatement(query);
+            stmt.setString(1, request.getParameter("id"));
+            stmt.executeUpdate();
+            response.sendRedirect("ViewProducts.jsp");
          response.sendRedirect("ViewProducts.jsp");
         }
         catch(Exception e){
