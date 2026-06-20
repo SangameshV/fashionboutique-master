@@ -321,7 +321,7 @@
         
          
                  
-        <td><% out.println(i); %></td>
+        <td><c:out value="<%= i %>"/></td>
                  <td><c:out value="<%= rs.getString("user") %>"/></td>
 
                  <td><% out.println(t); %></td>
