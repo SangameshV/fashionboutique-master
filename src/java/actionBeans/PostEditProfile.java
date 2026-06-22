@@ -37,10 +37,12 @@ public class PostEditProfile extends org.apache.struts.action.Action {
             throws Exception {
         ProfileForm f=(ProfileForm)form;
         DataBaseManager db=new DataBaseManager();
-        String s="UPDATE login SET Name=\'"+f.getname()+"\',Password=\'"+f.getuPsd()+"\', Phone=\'"+f.getphone()+"\', Email=\'"+f.getemail()+"\'";
-        if(db.CUD(s))
+        String s="UPDATE login SET Name=?, Password=?, Phone=?, Email=?";
+        if(db.CUD(s, f.getname(), f.getuPsd(), f.getphone(), f.getemail()))
         {
             return mapping.findForward(SUCCESS);
+        }
+        return mapping.findForward("failure");
         }
         return mapping.findForward("failure");
     }

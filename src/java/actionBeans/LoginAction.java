@@ -36,10 +36,8 @@ public class LoginAction extends org.apache.struts.action.Action {
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        LoginFromBean f=(LoginFromBean)form;
-        String query="Select * From login where userName=\'"+f.getuName()+"\' and Password=\'"+f.getpsd()+"\'";
-        DataBaseManager db=new DataBaseManager();
-        if(db.ChkValid(query)){
+        DataBaseManager db = new DataBaseManager();
+        if (db.ChkValid(f.getuName(), f.getpsd())) {
 
             HttpSession hs=request.getSession();
             hs.setAttribute("user", f);
