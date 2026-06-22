@@ -32,19 +32,21 @@ public class DeleteCartEntry extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String query=null;
+        String query = null;
+        Connection con = null;
+        PreparedStatement pstmt = null;
         try {
-            HttpSession hs=request.getSession();
-            LoginFromBean log=(LoginFromBean)hs.getAttribute("user");
-            query="Delete  from catalogue where id=\'"+request.getParameter("id")+"\' and user=\'"+log.getuName()+"\'";
-            Connection con=null;
-            Statement stmt=null;
-            InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+            HttpSession hs = request.getSession();
+            LoginFromBean log = (LoginFromBean) hs.getAttribute("user");
+            query = "DELETE FROM catalogue WHERE id = ? AND user = ?";
+            InitialContext in = new InitialContext();
+            DataSource ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, request.getParameter("id"));
+            pstmt.setString(2, log.getuName());
+            pstmt.executeUpdate();
+            response.sendRedirect("MyCart.jsp");
          response.sendRedirect("MyCart.jsp");
         }
         catch(Exception e){

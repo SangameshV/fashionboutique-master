@@ -308,8 +308,11 @@
         
          
                  
-        <td><% out.println(rs.getString("id")); %></td>
-                 <td><% out.println(rs.getString("user")); %></td>
+
+        <td><% out.println(org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(rs.getString("id"))); %></td>
+                 <td><% out.println(org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(rs.getString("user"))); %></td>
+
+                 <td><% out.println(org.apache.commons.lang3.StringEscapeUtils.escapeHtml4(rs.getString("price"))); %></td>
 
                  <td><% out.println(rs.getString("price")); %></td>
 
@@ -318,7 +321,7 @@
                                 </tr>
              
              <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ application.log("Error in Cart.jsp", e); out.print("An error occurred while processing your request. Please try again later."); }
         %>
                     </table>
                               </td>

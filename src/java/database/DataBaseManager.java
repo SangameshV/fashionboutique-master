@@ -1,3 +1,6 @@
+
+
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -51,20 +54,26 @@ public class DataBaseManager {
         {
 
         }
-    }
-    public boolean CUD(String query)
-    {
 
+    public boolean CUD(String query, Object... params)
+    {
         try
         {
-
             getConnection();
-            stmt.executeUpdate(query);
+            PreparedStatement pstmt = con.prepareStatement(query);
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setObject(i + 1, params[i]);
+            }
+            pstmt.executeUpdate();
+            pstmt.close();
             DisConnect();
             return true;
         }
         catch(Exception e)
         {
+            return false;
+        }
+    }
             
             return false;
         }
@@ -85,20 +94,19 @@ public class DataBaseManager {
         {
             
             return false;
+    public ResultSet ReadData(String query, String... params) {
+        try {
+            getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query);
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setString(i + 1, params[i]);
+            }
+            rs = pstmt.executeQuery();
+            return rs;
+        } catch (Exception e) {
+            return rs;
         }
     }
-    public ResultSet ReadData(String query)
-            {
-            try
-             {
-                getConnection();
-                rs=stmt.executeQuery(query);
-                DisConnect();
-                return rs;
-             }
-             catch(Exception e)
-             {
-                 return rs;
              }
     }
 

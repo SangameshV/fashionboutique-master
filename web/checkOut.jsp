@@ -314,7 +314,7 @@
          Connection con=null;
          Statement stmt=null;
          ResultSet rs;
-        try{ InitialContext in=new InitialContext();
+         PreparedStatement stmt=null;
          DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
          con=ds.getConnection();
          stmt=con.createStatement();
