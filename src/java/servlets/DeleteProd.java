@@ -31,20 +31,18 @@ public class DeleteProd extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String query=null;
+        String query = null;
         try {
-           
-           
-            query="DELETE FROM `product` WHERE `id`=\'"+request.getParameter("id")+"\'";
-            Connection con=null;
-            Statement stmt=null;
-            InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+            Connection con = null;
+            PreparedStatement stmt = null;
+            String id = request.getParameter("id");
+            InitialContext in = new InitialContext();
+            DataSource ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            stmt = con.prepareStatement("DELETE FROM `product` WHERE `id` = ?");
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            response.sendRedirect("ViewProducts.jsp");
          response.sendRedirect("ViewProducts.jsp");
         }
         catch(Exception e){

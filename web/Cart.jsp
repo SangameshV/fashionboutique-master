@@ -308,17 +308,18 @@
         
          
                  
-        <td><% out.println(rs.getString("id")); %></td>
-                 <td><% out.println(rs.getString("user")); %></td>
 
-                 <td><% out.println(rs.getString("price")); %></td>
+                 <td><c:out value="<%= rs.getString("id") %>"/></td>
+                 <td><c:out value="<%= rs.getString("user") %>"/></td>
+
+                 <td><c:out value="<%= rs.getString("price") %>"/></td>
 
 
 
                                 </tr>
              
              <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ out.print("An error occurred while processing your request."); }
         %>
                     </table>
                               </td>

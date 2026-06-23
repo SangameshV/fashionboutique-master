@@ -43,15 +43,18 @@ public class AddToCart extends HttpServlet {
             LoginFromBean log=(LoginFromBean)hs.getAttribute("user");
             
             Connection con=null;
-            Statement stmt=null;
-            
-            query="insert into catalogue values(\'"+request.getParameter("id")+"\',"+0+",\'"+request.getParameter("price")+"\',"+0+",\'"+log.getuName()+"\')";
-            
-            InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+            query = "insert into catalogue values(?, ?, ?, ?, ?)";
+
+            InitialContext in = new InitialContext();
+            DataSource ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query);
+            pstmt.setString(1, request.getParameter("id"));
+            pstmt.setInt(2, 0);
+            pstmt.setString(3, request.getParameter("price"));
+            pstmt.setInt(4, 0);
+            pstmt.setString(5, log.getuName());
+            pstmt.executeUpdate();
          response.sendRedirect("MyCart.jsp");
         } 
         catch(Exception e)

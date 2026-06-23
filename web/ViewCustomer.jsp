@@ -309,19 +309,27 @@
           rs=stmt.executeQuery(query);
           while(rs.next()){
               id=rs.getString("Name");
+              pageContext.setAttribute("id", id);
          %>
                             
                             
                             
-                            <td><% out.println(id); %></td>
-                   <td><% out.println(rs.getString("userName")); %></td>
-  <td><% out.println(rs.getString("Phone")); %></td>
-                   <td><% out.println(rs.getString("Email")); %></td>
+
+  <%
+      pageContext.setAttribute("idVal", id);
+      pageContext.setAttribute("userNameVal", rs.getString("userName"));
+      pageContext.setAttribute("phoneVal", rs.getString("Phone"));
+      pageContext.setAttribute("emailVal", rs.getString("Email"));
+  %>
+  <td><c:out value="${idVal}"/></td>
+  <td><c:out value="${userNameVal}"/></td>
+  <td><c:out value="${phoneVal}"/></td>
+  <td><c:out value="${emailVal}"/></td>
   <td ><a href="DeleteCustomer?id='<%=id %>'" >Delete</a></td>
                                   </tr>
                           
                           <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ java.util.logging.Logger.getLogger(getClass().getName()).log(java.util.logging.Level.SEVERE, "Error retrieving customer data", e); out.print("An error occurred while retrieving customer data. Please contact the administrator."); }
         %>
                           </table>                              </td>
                     </tr>
