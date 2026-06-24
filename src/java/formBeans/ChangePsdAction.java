@@ -37,9 +37,10 @@ public class ChangePsdAction extends org.apache.struts.action.Action {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ChangePsdFormBean log=(ChangePsdFormBean)form;
-        String query="UPDATE login SET Password=\'"+log.getnPsd()+"\' WHERE UserName=\'"+log.getuName()+"\' and Password=\'"+log.getuPsd()+"\'";
-        DataBaseManager db=new DataBaseManager();
-        if(db.CUD(query))
+
+        String query = "UPDATE login SET Password=? WHERE UserName=? AND Password=?";
+        DataBaseManager db = new DataBaseManager();
+        if(db.CUD(query, log.getnPsd(), log.getuName(), log.getuPsd()))
         {
             return mapping.findForward("success");
         }

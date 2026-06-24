@@ -311,16 +311,17 @@
                  
          <%
          double tp=0;
-         Connection con=null;
+         PreparedStatement stmt=null;
          Statement stmt=null;
          ResultSet rs;
         try{ InitialContext in=new InitialContext();
          DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
          con=ds.getConnection();
-         stmt=con.createStatement();
 
-         String query="Select * From catalogue where userName=\'"+f.getuName()+"\'";
-          rs=stmt.executeQuery(query);
+         String query="Select * From catalogue where userName=?";
+         stmt=con.prepareStatement(query);
+         stmt.setString(1, f.getuName());
+         rs=stmt.executeQuery();
           
           while(rs.next()){
          %>
