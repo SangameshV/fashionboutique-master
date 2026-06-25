@@ -308,17 +308,18 @@
         
          
                  
-        <td><% out.println(rs.getString("id")); %></td>
-                 <td><% out.println(rs.getString("user")); %></td>
 
-                 <td><% out.println(rs.getString("price")); %></td>
+        <td><% out.println(rs.getString("id") == null ? "" : rs.getString("id").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+                 <td><% out.println(rs.getString("user") == null ? "" : rs.getString("user").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
+
+                 <td><% out.println(rs.getString("price") == null ? "" : rs.getString("price").replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace("\"","&quot;").replace("'","&#x27;")); %></td>
 
 
 
                                 </tr>
              
              <% }}
-             catch(Exception e){out.print(e.toString());}
+             catch(Exception e){ application.log("Error in Cart.jsp", e); out.print("An error occurred while processing your request. Please try again later."); }
         %>
                     </table>
                               </td>

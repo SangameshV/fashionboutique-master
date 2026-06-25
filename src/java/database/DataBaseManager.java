@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -50,41 +51,52 @@ public class DataBaseManager {
         catch(Exception e)
         {
 
-        }
-    }
-    public boolean CUD(String query)
+    public boolean CUD(String query, String... params)
     {
-
         try
         {
-
-            getConnection();
-            stmt.executeUpdate(query);
-            DisConnect();
+            in = new InitialContext();
+            ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query);
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setString(i + 1, params[i]);
+            }
+            pstmt.executeUpdate();
+            pstmt.close();
+            if (con != null) { con.close(); }
             return true;
         }
-        catch(Exception e)
+        catch (Exception e)
         {
+            return false;
+        }
+    }
             
             return false;
         }
 
     }
 
-    public boolean ChkValid(String query)
+    public boolean ChkValid(String queryTemplate, String... params)
     {
         try
         {
-        getConnection();
-        rs=stmt.executeQuery(query);
-        if(rs.next())
-        return true;
-        else return false;
+            getConnection();
+            PreparedStatement pstmt = con.prepareStatement(queryTemplate);
+            for (int i = 0; i < params.length; i++) {
+                pstmt.setString(i + 1, params[i]);
+            }
+            rs = pstmt.executeQuery();
+            if (rs.next())
+                return true;
+            else return false;
         }
         catch(Exception e)
         {
-            
             return false;
+        }
+    }
         }
     }
     public ResultSet ReadData(String query)

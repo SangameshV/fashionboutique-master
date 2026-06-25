@@ -307,8 +307,10 @@
          con=ds.getConnection();
          stmt=con.createStatement();
          LoginFromBean f=(LoginFromBean)session.getAttribute("user");
-         String query="Select * From catalogue where user=\'"+f.getuName()+"\'";
-          rs=stmt.executeQuery(query);
+         String query="Select * From catalogue where user=?";
+         PreparedStatement pstmt=con.prepareStatement(query);
+         pstmt.setString(1, f.getuName());
+         rs=pstmt.executeQuery();
           
           name=f.getuName();
           double t=0;
@@ -327,7 +329,8 @@
                  <td><% out.println(t); %></td>
                               
                 
-    <td width="81"><a href="DeleteCartEntry?id=<%=i %>" >Delete</a></td>
+
+    <td width="81"><a href="DeleteCartEntry?id=<%=java.net.URLEncoder.encode(i != null ? i : "", "UTF-8") %>" >Delete</a></td>
                 
 
 
@@ -339,7 +342,7 @@
         <td></td>
         <td>Total Price</td>
         <td><% out.println(tp);%></td>
-        <td><a href="checkOut.jsp?name=<%=name%>&price=<%=tp%>"> Check Out</a></td>
+        <td><a href="checkOut.jsp?name=<%=java.net.URLEncoder.encode(name != null ? name : "", "UTF-8")%>&price=<%=tp%>"> Check Out</a></td>
                 <p>${page.name}</p>    </table>
                               </td>
                   </tr>
