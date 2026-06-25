@@ -37,9 +37,9 @@ public class LoginAction extends org.apache.struts.action.Action {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         LoginFromBean f=(LoginFromBean)form;
-        String query="Select * From login where userName=\'"+f.getuName()+"\' and Password=\'"+f.getpsd()+"\'";
-        DataBaseManager db=new DataBaseManager();
-        if(db.ChkValid(query)){
+        String query = "Select * From login where userName=? and Password=?";
+        DataBaseManager db = new DataBaseManager();
+        if (db.ChkValid(query, f.getuName(), f.getpsd())) {
 
             HttpSession hs=request.getSession();
             hs.setAttribute("user", f);
