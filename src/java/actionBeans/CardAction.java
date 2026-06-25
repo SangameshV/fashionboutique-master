@@ -34,15 +34,17 @@ public class CardAction extends org.apache.struts.action.Action {
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        CreditCard cr=(CreditCard)form;
-        String query="Insert into payment values(\'"+cr.getusername()+"\'"+cr.getcard()+"\'"+cr.getprice()+"\')";
-        DataBaseManager db=new DataBaseManager();
-        if(db.CUD(query))
+        CreditCard cr = (CreditCard) form;
+        String query = "Insert into payment values(?, ?, ?)";
+        DataBaseManager db = new DataBaseManager();
+        if (db.CUD(query, cr.getusername(), cr.getcard(), cr.getprice()))
         {
             return mapping.findForward("success");
         }
         else return mapping.findForward("failure");
+        
+        
+    }
         
         
     }
