@@ -41,9 +41,10 @@ public class NewProductAction extends org.apache.struts.action.Action {
         FormFile file=f.getimage();
         String query=null;
         String path="images/"+f.getPath();
-       try{ query="Insert into product values(\'"+f.getid()+"\',\'"+f.getname()+"\',\'"+f.gettype()+"\',"+f.getprice()+",\'"+path+"\')";
-        DataBaseManager db=new DataBaseManager();
-        if(db.CUD(query))
+       try{
+        String paramQuery = "INSERT INTO product VALUES(?, ?, ?, ?, ?)";
+        DataBaseManager db = new DataBaseManager();
+        if(db.CUD(paramQuery, f.getid(), f.getname(), f.gettype(), f.getprice(), path))
         return mapping.findForward(SUCCESS);}
         catch(Exception e){
            

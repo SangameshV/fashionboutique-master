@@ -300,15 +300,16 @@
          double tp=0;
          Connection con=null;
          Statement stmt=null;
-         ResultSet rs;
+         PreparedStatement stmt=null;
          String name=null;
         try{ InitialContext in=new InitialContext();
          DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
          con=ds.getConnection();
-         stmt=con.createStatement();
          LoginFromBean f=(LoginFromBean)session.getAttribute("user");
-         String query="Select * From catalogue where user=\'"+f.getuName()+"\'";
-          rs=stmt.executeQuery(query);
+         String query="Select * From catalogue where user=?";
+         stmt=con.prepareStatement(query);
+         stmt.setString(1, f.getuName());
+         rs=stmt.executeQuery();
           
           name=f.getuName();
           double t=0;
@@ -339,7 +340,7 @@
         <td></td>
         <td>Total Price</td>
         <td><% out.println(tp);%></td>
-        <td><a href="checkOut.jsp?name=<%=name%>&price=<%=tp%>"> Check Out</a></td>
+        <td><a href="checkOut.jsp?name=<%=java.net.URLEncoder.encode(name == null ? "" : name, "UTF-8")%>&price=<%=tp%>"> Check Out</a></td>
                 <p>${page.name}</p>    </table>
                               </td>
                   </tr>

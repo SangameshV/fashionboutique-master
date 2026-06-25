@@ -41,14 +41,16 @@ public class PreEditProfile extends org.apache.struts.action.Action {
             throws Exception {
 HttpSession hs=request.getSession();
         LoginFromBean log=(LoginFromBean)hs.getAttribute("user");
-        String query="Select * From login where userName=\'"+log.getuName()+"\'";
+
+        String query = "Select * From login where userName=?";
         ResultSet rs=null;
         ProfileForm f=(ProfileForm)form;
         
         DataBaseManager db=new DataBaseManager();
         if(db.ChkValid("Select * form login where userName=\'"+log.getuName()+"\'"))
         {
-          try{rs=  db.ReadData(query);
+
+          try{rs=  db.ReadData(query, log.getuName());
           rs.next();
           f.setname(rs.getString("Name"));
           //javax.swing.JOptionPane.showMessageDialog(null, f.getname());
