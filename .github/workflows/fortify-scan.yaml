@@ -50,6 +50,7 @@ jobs:
           DO_CREATE_PR: ${{ vars.DO_CREATE_PR }}
           DO_PR_COMMENT: ${{ vars.DO_PR_COMMENT }}
           DO_APPLY_REMEDIATIONS: ${{ vars.DO_APPLY_REMEDIATIONS }}
+          DO_AVIATOR_REMEDIATIONS: ${{ vars.DO_AVIATOR_REMEDIATIONS }}
           SC_CLIENT_VERSION: ${{ vars.SC_CLIENT_VERSION}}
           BASE_BRANCH: "main"
         run: |
