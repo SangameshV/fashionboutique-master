@@ -38,14 +38,16 @@ public class NewProductAction extends org.apache.struts.action.Action {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProductFormBean f=(ProductFormBean)form;
-        FormFile file=f.getimage();
-        String query=null;
-        String path="images/"+f.getPath();
-       try{ query="Insert into product values(\'"+f.getid()+"\',\'"+f.getname()+"\',\'"+f.gettype()+"\',"+f.getprice()+",\'"+path+"\')";
-        DataBaseManager db=new DataBaseManager();
-        if(db.CUD(query))
-        return mapping.findForward(SUCCESS);}
-        catch(Exception e){
+        String path = "images/" + f.getPath();
+        try {
+            String query = "INSERT INTO product VALUES (?, ?, ?, ?, ?)";
+            DataBaseManager db = new DataBaseManager();
+            if (db.CUD(query, f.getid(), f.getname(), f.gettype(), f.getprice(), path))
+                return mapping.findForward(SUCCESS);
+        } catch (Exception e) {
+            return mapping.findForward("failure");
+        }
+        return mapping.findForward("failure");
            
             return mapping.findForward("failure");}
         return mapping.findForward("failure");

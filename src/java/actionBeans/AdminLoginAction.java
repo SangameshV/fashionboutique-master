@@ -36,9 +36,9 @@ public class AdminLoginAction extends org.apache.struts.action.Action {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         AdminLoginForm f=(AdminLoginForm)form;
-        String query="Select * From adminlogin where userName=\'"+f.getuName()+"\' and password=\'"+f.getpsd()+"\'";
-        DataBaseManager db=new DataBaseManager();
-        if(db.ChkValid(query))
+        String query = "Select * From adminlogin where userName=? and password=?";
+        DataBaseManager db = new DataBaseManager();
+        if (db.ChkValid(query, f.getuName(), f.getpsd()))
         return mapping.findForward(SUCCESS);
         else return mapping.findForward("failure");
     }
