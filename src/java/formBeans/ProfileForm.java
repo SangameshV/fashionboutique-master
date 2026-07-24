@@ -16,8 +16,8 @@ import org.apache.struts.action.ActionMessage;
  * @author Adnan Aftab
  */
 public class ProfileForm extends org.apache.struts.action.ActionForm {
-    
-     private String uName;
+
+    private String uName;
 
     private String uPsd;
     private String rPsd;
@@ -83,10 +83,10 @@ public class ProfileForm extends org.apache.struts.action.ActionForm {
     /**
      *
      */
-   
 
     /**
      * This is the action called from the Struts framework.
+     * 
      * @param mapping The ActionMapping used to select this instance.
      * @param request The HTTP Request we are processing.
      * @return
@@ -97,6 +97,7 @@ public class ProfileForm extends org.apache.struts.action.ActionForm {
             errors.add("name", new ActionMessage("error.name.required"));
             // TODO: add 'error.name.required' key to your resources
         }
+        system.out.println("validate method called");
         return errors;
     }
 }
