@@ -97,7 +97,6 @@ public class ProfileForm extends org.apache.struts.action.ActionForm {
             errors.add("name", new ActionMessage("error.name.required"));
             // TODO: add 'error.name.required' key to your resources
         }
-        system.out.println("validate method called");
         return errors;
     }
 }
