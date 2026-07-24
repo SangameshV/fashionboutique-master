@@ -96,6 +96,7 @@ public class ProfileForm extends org.apache.struts.action.ActionForm {
         if (getuName() == null || getuName().length() < 1) {
             errors.add("name", new ActionMessage("error.name.required"));
             // TODO: add 'error.name.required' key to your resources
+            sysout.println("Name is empty");
         }
         return errors;
     }
