@@ -1,3 +1,4 @@
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.*;
 import java.sql.*;
 import javax.naming.*;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -37,14 +39,17 @@ public class DeleteProd extends HttpServlet {
         try {
            
            
-            query="DELETE FROM `product` WHERE `id`=\'"+request.getParameter("id")+"\'";
-            Connection con=null;
-            Statement stmt=null;
-            InitialContext in=new InitialContext();
-         DataSource ds=(DataSource)in.lookup("java:comp/env/Account");
-         con=ds.getConnection();
-         stmt=con.createStatement();
-         stmt.executeUpdate(query);
+
+            String id = request.getParameter("id");
+            Connection con = null;
+            PreparedStatement stmt = null;
+            InitialContext in = new InitialContext();
+            DataSource ds = (DataSource) in.lookup("java:comp/env/Account");
+            con = ds.getConnection();
+            stmt = con.prepareStatement("DELETE FROM `product` WHERE `id` = ?");
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            response.sendRedirect("ViewProducts.jsp");
          response.sendRedirect("ViewProducts.jsp");
         }
         catch(Exception e){
